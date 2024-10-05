@@ -11,22 +11,12 @@ def write_words(word_count: int, file_name: str):
     print(f'Завершилась запись в файл {file_name}')
 
 
-file_1 = Thread(target=write_words, args=(10, 'example1.txt'))
-file_2 = Thread(target=write_words, args=(30, 'example2.txt'))
-file_3 = Thread(target=write_words, args=(200, 'example3.txt'))
-file_4 = Thread(target=write_words, args=(100, 'example4.txt'))
-
 start_time = datetime.now()
 
-file_1.start()
-file_2.start()
-file_3.start()
-file_4.start()
-
-file_1.join()
-file_2.join()
-file_3.join()
-file_4.join()
+write_words(10, 'example1.txt')
+write_words(30, 'example2.txt')
+write_words(200, 'example3.txt')
+write_words(100, 'example4.txt')
 
 stop_time = datetime.now()
 print(f'Работа потоков {stop_time - start_time}')
