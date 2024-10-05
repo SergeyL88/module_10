@@ -8,18 +8,18 @@ class Knight(Thread):
         super().__init__()
         self.name = name
         self.power = power
-        self.enemy = 100
 
     def run(self):
-        days = 0
+        self.enemy = 100
+        self.days = 0
         print(f'{self.name}, на нас напали!')
         while self.enemy > 0:
             self.enemy -= self.power
             sleep(1)
-            days += 1
+            self.days += 1
             print(f'{self.name} сражается {
-                  days} день(дня)..., осталось {self.enemy} войнов ')
-        print(f'{self.name} одержал победу спустя {days} дней(дня)!')
+                  self.days} день(дня)..., осталось {self.enemy} войнов ')
+        print(f'{self.name} одержал победу спустя {self.days} дней(дня)!')
 
 
 first_knight = Knight('Sir Lancelot', 10)
