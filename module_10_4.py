@@ -21,7 +21,7 @@ class Guest(Thread):
         self.name = name
 
     def run(self):
-        sleep(randint(1, 2))
+        sleep(randint(3, 10))
 
 
 class Cafe:
@@ -46,24 +46,21 @@ class Cafe:
 
     def discuss_guests(self):
         while True:
-            print(f'Очередь: {self.queue.qsize()}, занятые столы: {
-                  len([value for value in self.tables.values() if value != None])}')
-            if self.queue.empty() and all(value for value in self.tables.values()):
+            if self.queue.empty() and all(table is None for table in self.tables.values()):
                 break
-            else:
-                for tab_number, tab_guest in self.tables.items():
-                    if tab_guest is not None:
-                        tab_guest.join()
-                        if tab_guest.is_alive() == False:
-                            print(
-                                f'{tab_guest.name} покушал(-а) и ушёл(ушла)\nСтол номер {tab_number} свободен')
-                            self.tables[tab_number] = None
-                            break
-                    elif tab_guest is None:
-                        self.tables[tab_number] = self.queue.get()
+
+            for table_number, guest in self.tables.items():
+                if guest is not None and not guest.is_alive():
+                    print(
+                        f'{guest.name} покушал(-а) и ушёл(ушла)\nСтол номер {table_number} свободен')
+                    self.tables[table_number] = None
+
+                    if not self.queue.empty():
+                        next_guest = self.queue.get()
+                        self.tables[table_number] = next_guest
                         print(
-                            f'{self.tables[tab_number].name} вышел из очереди и сел(-а) за стол номер {tab_number}')
-                        self.tables[tab_number].start()
+                            f'{next_guest.name} вышел(-ла) из очереди и сел(-а) за стол номер {table_number}')
+                        next_guest.start()
 
 
 if __name__ == '__main__':
