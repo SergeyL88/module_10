@@ -17,11 +17,11 @@ if __name__ == '__main__':
     # read_info(file_names)
     # stop = datetime.now()
     # duration = stop - start
-    # print(duration)
+    # print(f'{duration} линейное')
 
     with Pool(processes=4) as pool:
         start = datetime.now()
         pool.map(read_info, file_names)
     stop = datetime.now()
     duration = stop - start
-    print(duration)
+    print(f'{duration} многопроцессорность')
